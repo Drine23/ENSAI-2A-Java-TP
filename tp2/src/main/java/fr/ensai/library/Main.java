@@ -14,5 +14,15 @@ public class Main {
                 423);
 
         System.out.println(fellowshipOfTheRing.toString());
+
+        Library library = new Library("library1");
+        Magazine magazine1 = new Magazine("issn1","magasine1","350",2000,20);
+        Magazine magazine2 = new Magazine("issn2","magasine2","35",2001,30);
+        library.addItem(magazine1);
+        library.addItem(magazine2);
+        System.err.println(library);
+        library.loadBooksFromCSV("books.csv");
+        library.displayItems();
+
     }
 }
