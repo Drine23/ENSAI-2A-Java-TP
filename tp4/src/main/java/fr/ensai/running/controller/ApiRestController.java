@@ -3,7 +3,12 @@ package fr.ensai.running.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,5 +30,29 @@ public class ApiRestController {
 
         return athleteService.findAll();
     }
+
+    @GetMapping("/athlete/{id_athlete}")
+    public ResponseEntity<Athlete> getUserById(@PathVariable Long id_athlete) {
+        Athlete athlete = athleteService.findById(id_athlete);
+        if (athlete == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(athlete);
+    }
+    @DeleteMapping("/athlete/{id_athlete}")
+    public ResponseEntity<String> deleteAthlete(@PathVariable Long id_athlete) {
+        Athlete athlete = athleteService.findById(id_athlete);
+        if (athlete == null) {
+            return ResponseEntity.status(404).body("Athlete not found");
+        }
+        athleteService.deleteById(id_athlete);
+        return ResponseEntity.noContent().build();
+}
+    @PostMapping("/athlete")
+    public ResponseEntity<Athlete> createAthlete(@RequestBody Athlete athlete) {
+        Athlete createdAthlete = athleteService.save(athlete);
+        return ResponseEntity.ok(createdAthlete);
+}
+
 
 }
